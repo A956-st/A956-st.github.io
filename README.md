@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>田思怡宝宝 - 爱的告白</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 25%, #a1c4fd 50%, #c2e9fb 75%, #ff9a9e 100%);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .snowflake {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 24px;
+            font-weight: bold;
+            pointer-events: none;
+            user-select: none;
+            z-index: 1;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            padding: 20px;
+        }
+        
+        .window {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #fff;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .window:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 36px rgba(31, 38, 135, 0.5);
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            font-size: 28px;
+        }
+        
+        .input-group {
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 16px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            outline: none;
+            text-align: center;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .option-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(45deg, #6b8eff, #8eaeff);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(107, 142, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .option-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(107, 142, 255, 0.6);
+        }
+        
+        .love-circle {
+            position: fixed;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+            z-index: 100;
+            transition: transform 0.2s ease;
+            user-select: none;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            font-size: 18px;
+            line-height: 1.6;
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            animation: floatHeart 5s linear forwards;
+        }
+        
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* 自定义选择按钮样式 */
+        .custom-select {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .select-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(45deg, #6b8eff, #8eaeff);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(107, 142, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .select-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(107, 142, 255, 0.6);
+        }
+        
+        .select-btn.selected {
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container">
+        <div class="window">
+            <h2>你喜欢谁</h2>
+            <div class="input-group">
+                <input type="text" id="password1" placeholder="请输入卡密">
+            </div>
+            <button class="option-btn" onclick="checkPassword1()">确认</button>
+            <div id="message1" class="message hidden"></div>
+        </div>
+        
+        <div class="window">
+            <h2>答应我好好生活好嘛</h2>
+            <p style="margin-bottom: 15px; opacity: 0.8;">请选择你的回答：</p>
+            
+            <div class="custom-select">
+                <button class="select-btn" onclick="selectOption('好')">好</button>
+                <button class="select-btn" onclick="selectOption('不好')">不好</button>
+            </div>
+            
+            <div id="selectedOption" class="message hidden"></div>
+            <button class="option-btn" onclick="checkPassword2()" style="margin-top: 20px;">确认选择</button>
+            <div id="message2" class="message hidden"></div>
+        </div>
+    </div>
+    
+    <div id="loveCircle" class="love-circle hidden">我爱你</div>
+
+    <script>
+        // 创建飘落的文字雪花
+        function createSnowflakes() {
+            const texts = ["田", "思", "怡", "宝", "宝", "❤"];
+            const container = document.body;
+            
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement("div");
+                snowflake.className = "snowflake";
+                snowflake.textContent = texts[Math.floor(Math.random() * texts.length)];
+                
+                const size = Math.random() * 24 + 16;
+                snowflake.style.fontSize = `${size}px`;
+                
+                const startPosition = Math.random() * 100;
+                snowflake.style.left = `${startPosition}vw`;
+                
+                const animationDuration = Math.random() * 10 + 5;
+                snowflake.style.animation = `fall ${animationDuration}s linear infinite`;
+                
+                // 随机颜色
+                const colors = ["#ff6b6b", "#ff8e8e", "#ffa5a5", "#ffb5b5", "#ffcece", "#ffecec"];
+                snowflake.style.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                container.appendChild(snowflake);
+                
+                // 自定义fall动画
+                const keyframes = `
+                    @keyframes fall {
+                        0% {
+                            transform: translateY(-10vh) rotate(0deg);
+                            opacity: ${Math.random() * 0.5 + 0.5};
+                        }
+                        100% {
+                            transform: translateY(100vh) rotate(360deg);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                
+                const styleSheet = document.createElement("style");
+                styleSheet.textContent = keyframes;
+                document.head.appendChild(styleSheet);
+            }
+        }
+        
+        // 创建飘动的心形
+        function createHearts() {
+            const heartsContainer = document.getElementById("hearts");
+            setInterval(() => {
+                const heart = document.createElement("div");
+                heart.className = "heart";
+                heart.innerHTML = "❤";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.color = "#ff6b6b";
+                heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+                heart.style.animationDuration = (Math.random() * 5 + 3) + "s";
+                
+                heartsContainer.appendChild(heart);
+                
+                // 移除心形元素
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }, 300);
+        }
+        
+        // 检查第一个密码
+        function checkPassword1() {
+            const password = document.getElementById("password1").value;
+            const message = document.getElementById("message1");
+            
+            if (password === "橙子宝宝") {
+                message.textContent = "密码正确！你是我心中的唯一！";
+                message.classList.remove("hidden");
+                
+                // 显示会移动的爱心圆形
+                const loveCircle = document.getElementById("loveCircle");
+                loveCircle.classList.remove("hidden");
+                
+                // 设置初始位置
+                loveCircle.style.left = "50%";
+                loveCircle.style.top = "50%";
+                loveCircle.style.transform = "translate(-50%, -50%)";
+                
+                // 添加点击移动事件
+                loveCircle.onclick = function() {
+                    const x = Math.random() * (window.innerWidth - 120);
+                    const y = Math.random() * (window.innerHeight - 120);
+                    
+                    this.style.left = `${x}px`;
+                    this.style.top = `${y}px`;
+                    this.style.transform = "none";
+                    this.style.transition = "all 0.5s ease";
+                };
+            } else {
+                message.textContent = "密码错误，请重新输入！";
+                message.classList.remove("hidden");
+            }
+        }
+        
+        let selectedOption = "";
+        
+        // 选择选项
+        function selectOption(option) {
+            selectedOption = option;
+            
+            // 更新UI显示
+            const selectedOptionDisplay = document.getElementById("selectedOption");
+            selectedOptionDisplay.textContent = `已选择: ${option}`;
+            selectedOptionDisplay.classList.remove("hidden");
+            
+            // 更新按钮样式
+            const buttons = document.querySelectorAll('.select-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            event.target.classList.add('selected');
+        }
+        
+        // 检查第二个密码
+        function checkPassword2() {
+            const message = document.getElementById("message2");
+            
+            if (selectedOption === "好" || selectedOption === "不好") {
+                message.innerHTML = `
+                    <p>一定要好好活着我陪着你</p>
+                    <p>你的笑容是我每天的阳光</p>
+                    <p>你的存在让我的世界更加美好</p>
+                    <p>无论发生什么，我都会在你身边</p>
+                    <p>你值得所有的爱与幸福</p>
+                    <p>❤ 永远爱你 ❤</p>
+                `;
+                message.classList.remove("hidden");
+                
+                // 创建更多爱心动画
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        const heart = document.createElement("div");
+                        heart.className = "heart";
+                        heart.innerHTML = "❤";
+                        heart.style.left = Math.random() * 100 + "vw";
+                        heart.style.top = "100vh";
+                        heart.style.color = "#ff6b6b";
+                        heart.style.fontSize = (Math.random() * 25 + 20) + "px";
+                        heart.style.animationDuration = (Math.random() * 4 + 2) + "s";
+                        
+                        document.body.appendChild(heart);
+                        
+                        // 移除心形元素
+                        setTimeout(() => {
+                            heart.remove();
+                        }, 6000);
+                    }, i * 100);
+                }
+            } else {
+                message.textContent = "请先选择一个选项";
+                message.classList.remove("hidden");
+            }
+        }
+        
+        // 页面加载完成后初始化
+        window.onload = function() {
+            createSnowflakes();
+            createHearts();
+            
+            // 添加样式
+            const style = document.createElement('style');
+            style.innerHTML = `
+                .snowflake {
+                    position: fixed;
+                    top: -20px;
+                    animation-name: fall;
+                    animation-timing-function: linear;
+                    animation-iteration-count: infinite;
+                }
+            `;
+            document.head.appendChild(style);
+        };
+    </script>
+</body>
+</html>
